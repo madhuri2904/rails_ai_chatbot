@@ -15,11 +15,12 @@ class EncryptionService
       raise "Missing ENV: ENCRYPTION_SECRET"
     end
 
-    # 32-byte key (64 hex chars)
+    # Convert hex to binary key
     key = [secret].pack("H*")
     unless key.bytesize == 32
-        raise ArgumentError, "ENCRYPTION_SECRET must be 32 bytes (64 hex chars)"
+      raise "Key must be 32 bytes, but got #{key.bytesize} bytes"
     end
-    ActiveSupport::MessageEncryptor.new(key, cipher: 'aes-256-gcm')
+
+    ActiveSupport::MessageEncryptor.new(key)
   end
 end
