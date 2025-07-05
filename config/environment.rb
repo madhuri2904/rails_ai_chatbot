@@ -10,8 +10,8 @@ if ENV["ENCRYPTION_SECRET"]
   raw_key = ENV["ENCRYPTION_SECRET"]
 
   # Ensure exactly 16 bytes for AES-128
-  trimmed_key = raw_key.byteslice(0, 16)
-  if trimmed_key.bytesize != 16
+  trimmed_key = raw_key.byteslice(0, 32)
+  if trimmed_key.bytesize != 32
     raise ArgumentError, "ENCRYPTION_SECRET must be at least 16 bytes (got #{trimmed_key.bytesize})"
   end
 
