@@ -23,7 +23,9 @@ Bundler.require(*Rails.groups)
 
 module RailsAiChatbot
   class Application < Rails::Application
-    puts ">> ENCRYPTION_SECRET LENGTH: #{ENV['ENCRYPTION_SECRET']&.length}"
+    puts ">> ENCRYPTION_SECRET length: #{ENV['ENCRYPTION_SECRET']&.length}"
+    puts ">> Byte size: #{[ENV['ENCRYPTION_SECRET']].pack('H*').bytesize rescue 'invalid'}"
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
