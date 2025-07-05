@@ -1,10 +1,13 @@
-ENCRYPTION_SECRET = ENV['ENCRYPTION_SECRET']
+require 'openssl'
 
-if ENCRYPTION_SECRET.nil? || ENCRYPTION_SECRET.bytesize != 16
-  raise ArgumentError, "ENCRYPTION_SECRET must be exactly 16 bytes. Please check your environment variable."
+ENCRYPTION_SECRET = ENV.fetch('ENCRYPTION_SECRET') do
+  raise "ENCRYPTION_SECRET not set!"
 end
 
-# Optional: Example Cipher usage
-# cipher = OpenSSL::Cipher.new("AES-128-ECB")
-# cipher.encrypt
-# cipher.key = ENCRYPTION_SECRET
+unless ENCRYPTION_SECRET.length == 16
+  raise ArgumentError, "ENCRYPTION_SECRET must be exactly 16 characters, got #{ENCRYPTION_SECRET.length}"
+end
+
+CIPHER = OpenSSL::Cipher.new('AES-128-ECB')
+CIPHER.encrypt
+CIPHER.key = ENCRYPTION_SECRET
