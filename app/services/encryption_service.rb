@@ -12,10 +12,11 @@ class EncryptionService
 
   def self.encryptor
     secret = ENV.fetch("ENCRYPTION_SECRET") do
-      raise "ENCRYPTION_SECRET environment variable is not set"
+      raise "Missing ENV: ENCRYPTION_SECRET"
     end
 
-    key = ActiveSupport::KeyGenerator.new(secret).generate_key("salt", 32)
+    # Convert hex key to binary (32 bytes)
+    key = [secret].pack("H*")
     ActiveSupport::MessageEncryptor.new(key)
   end
 end
