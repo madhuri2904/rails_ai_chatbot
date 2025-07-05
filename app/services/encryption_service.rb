@@ -17,6 +17,9 @@ class EncryptionService
 
     # 32-byte key (64 hex chars)
     key = [secret].pack("H*")
+    unless key.bytesize == 32
+        raise ArgumentError, "ENCRYPTION_SECRET must be 32 bytes (64 hex chars)"
+    end
     ActiveSupport::MessageEncryptor.new(key, cipher: 'aes-256-gcm')
   end
 end
