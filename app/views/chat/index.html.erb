@@ -1,0 +1,13 @@
+<h1>Hotwire Chatbot</h1>
+
+<%= form_with url: "/chat", method: :post, data: { turbo_frame: "chat_frame" } do %>
+  <%= label_tag :prompt, "Ask AI:" %>
+  <%= text_field_tag :prompt, nil, autofocus: true %>
+  <%= submit_tag "Submit" %>
+<% end %>
+
+<%= turbo_frame_tag "chat_frame" do %>
+  <% if @reply.present? %>
+    <p><strong>AI Response:</strong> <%= @reply %></p>
+  <% end %>
+<% end %>
