@@ -13,7 +13,7 @@ require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
 require "rails/all"
-require 'dotenv/load' if ENV['RAILS_ENV'] != 'production'
+require 'dotenv/load' unless Rails.env.production?
 
 # require "rails/test_unit/railtie"
 
