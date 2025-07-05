@@ -12,13 +12,15 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
-require "dotenv/load"
+require "rails/all"
+require 'dotenv/load' if ENV['RAILS_ENV'] != 'production'
+
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-Dotenv.load
+
 module RailsAiChatbot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -42,6 +44,6 @@ module RailsAiChatbot
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = false
     config.autoload_paths += %W(#{config.root}/app/services)
-
+    config.load_defaults 7.1
   end
 end
