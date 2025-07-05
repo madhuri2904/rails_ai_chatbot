@@ -80,6 +80,11 @@ test:
 #
 production:
   <<: *default
-  database: rails_ai_chatbot_production
-  username: rails_ai_chatbot
-  password: <%= ENV["RAILS_AI_CHATBOT_DATABASE_PASSWORD"] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+
