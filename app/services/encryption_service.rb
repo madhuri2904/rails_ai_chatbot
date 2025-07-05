@@ -17,9 +17,9 @@ class EncryptionService
   
       raise "ENCRYPTION_SECRET must be 64 hex characters" unless secret.match?(/\A[0-9a-f]{64}\z/i)
   
-      key = [secret].pack("H*") # => 32 bytes
+      key = [ENV["ENCRYPTION_SECRET"]].pack("H*") # must be 32 bytes
       raise "Key must be 32 bytes, got #{key.bytesize}" unless key.bytesize == 32
   
-      ActiveSupport::MessageEncryptor.new(key)
+      encryptor = ActiveSupport::MessageEncryptor.new(key)
     end
   end
