@@ -1,13 +1,11 @@
-require 'openssl'
+require 'active_support/message_encryptor'
 
-ENCRYPTION_SECRET = ENV.fetch('ENCRYPTION_SECRET') do
-  raise "ENCRYPTION_SECRET not set!"
-end
+raw_secret = ENV['ENCRYPTION_SECRET']
 
-unless ENCRYPTION_SECRET.length == 16
-  raise ArgumentError, "ENCRYPTION_SECRET must be exactly 16 characters, got #{ENCRYPTION_SECRET.length}"
-end
+raise "Missing ENCRYPTION_SECRET!" if raw_secret.blank?
 
-CIPHER = OpenSSL::Cipher.new('AES-128-ECB')
-CIPHER.encrypt
-CIPHER.key = ENCRYPTION_SECRET
+# Derive a 256-bit key (32 bytes) for AES encryption using a salt
+key = ActiveSupport::KeyGenerator.new(raw_secret).generate_key('salt', 32)
+
+# Create a global encryptor constant
+ENCRYPTOR = ActiveSupport::MessageEncryptor.new(key)
