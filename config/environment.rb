@@ -3,15 +3,27 @@
 # Load the Rails application.
 require_relative "application"
 
-# Only add this block if you really need encryption setup here
-if ENV["ENCRYPTION_SECRET"]
-    require "openssl"
-    raw_key = ENV["ENCRYPTION_SECRET"]
-    @secret = raw_key.byteslice(0, 16)
-    cipher = OpenSSL::Cipher.new('AES-128-CBC')
-    cipher.encrypt
-    cipher.key = @secret
+require_relative "application"
 
+# Optional encryption setup
+if ENV["ENCRYPTION_SECRET"]
+  require "openssl"
+
+  raw_key = ENV["ENCRYPTION_SECRET"]
+
+  # Ensure exactly 16 bytes for AES-128
+  trimmed_key = raw_key.byteslice(0, 16)
+  if trimmed_key.bytesize != 16
+    raise ArgumentError, "ENCRYPTION_SECRET must be at least 16 bytes (got #{trimmed_key.bytesize})"
+  end
+
+  cipher.key = raw_key.byteslice(0, 32)
+
+  cipher.encrypt
+  cipher.key = trimmed_key
+
+  # Make @secret available globally if needed
+  @secret = trimmed_key
 end
 
 # Initialize the Rails application.
