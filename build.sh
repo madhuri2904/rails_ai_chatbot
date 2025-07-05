@@ -7,7 +7,7 @@ bundle install --without development test
 # bin/rails bootsnap:clear
 
 # Precompile assets
-bin/rails assets:precompile
+# bin/rails assets:precompile
 
 # Run DB migrations
 bin/rails db:migrate
