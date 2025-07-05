@@ -15,8 +15,8 @@ class EncryptionService
       raise "Missing ENV: ENCRYPTION_SECRET"
     end
 
-    # Convert hex key to binary (32 bytes)
+    # 32-byte key (64 hex chars)
     key = [secret].pack("H*")
-    ActiveSupport::MessageEncryptor.new(key)
+    ActiveSupport::MessageEncryptor.new(key, cipher: 'aes-256-gcm')
   end
 end
