@@ -16,12 +16,12 @@ class EncryptionService
     encrypted = cipher.update(text) + cipher.final
 
     {
-      encrypted_data: Base64.encode64(encrypted),
+      data: Base64.encode64(encrypted),
       iv: Base64.encode64(iv)
     }
   end
 
-  def self.decrypt(encrypted_data, iv)
+  def self.decrypt(data, iv)
     decipher = OpenSSL::Cipher.new('aes-128-cbc')
     decipher.decrypt
 
@@ -31,7 +31,7 @@ class EncryptionService
     decipher.key = key
     decipher.iv = Base64.decode64(iv)
 
-    decrypted = decipher.update(Base64.decode64(encrypted_data)) + decipher.final
+    decrypted = decipher.update(Base64.decode64(data)) + decipher.final
     decrypted
   end
 end
